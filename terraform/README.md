@@ -8,6 +8,6 @@ Just run the following terraform commands:
 
     terraform init
     terraform plan
-    terraform 
+    terraform apply
     
 More details can be found when openning the main folder.
