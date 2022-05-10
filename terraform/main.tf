@@ -1,9 +1,12 @@
 terraform {
   required_version = ">= 0.14"
 
-  backend "gcs" {
-    bucket = "terraform-backend-diss-22"
-    prefix = "diss22-terraform"
+  cloud {
+    organization = "Dissertation22"
+
+    workspaces {
+      name = "Diss22-IaC"
+    }
   }
 }
 
