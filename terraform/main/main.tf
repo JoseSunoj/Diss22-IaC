@@ -203,7 +203,7 @@ resource "kubernetes_namespace" "argocd" {
   }
 }
 
-data "kubectl_file_documents" "argocd-install" {
+data "kubectl_file_documents" "argocd_install" {
   content = file("../manifests/argocd/argocd-install/argocd-install.yaml")
 }
 
@@ -211,20 +211,20 @@ resource "kubectl_manifest" "argocd" {
   depends_on = [
     helm_release.istio_ingress, kubectl_manifest.addons, kubectl_manifest.grafana
   ]
-  count              = length(data.kubectl_file_documents.argocd-install.documents)
-  yaml_body          = element(data.kubectl_file_documents.argocd-install.documents, count.index)
+  count              = length(data.kubectl_file_documents.argocd_install.documents)
+  yaml_body          = element(data.kubectl_file_documents.argocd_install.documents, count.index)
   override_namespace = "argocd"
 }
 
-data "kubectl_path_documents" "argocd-pacthes" {
+data "kubectl_path_documents" "argocd_pacthes" {
   pattern = "../manifests/argocd/argocd-install/argocd-istio/*.yaml"
 }
 
-resource "kubectl_manifest" "argocd-pacthes" {
+resource "kubectl_manifest" "argocd_pacthes" {
   depends_on = [
     helm_release.istio_ingress, kubectl_manifest.argocd,
   ]
-  for_each           = toset(data.kubectl_path_documents.argocd-pacthes.documents)
+  for_each           = toset(data.kubectl_path_documents.argocd_pacthes.documents)
   yaml_body          = each.value
   override_namespace = "argocd"
 }
