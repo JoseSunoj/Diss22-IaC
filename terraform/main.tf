@@ -1,11 +1,27 @@
 terraform {
   required_version = ">= 0.14"
+  
+  required_providers {
 
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 4.0"
+    }
+  }
+  
   backend "gcs" {
     bucket = "terraform-backend-diss-22"
     prefix = "diss22-terraform"
   }
 }
+
+provider "google" {
+  project     = var.project_id
+  region      = var.region
+  zone        = var.location
+  credentials = var.gcp-creds
+}
+
 
 module "prod_cluster" {
   source          = "./main"

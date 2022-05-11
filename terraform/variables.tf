@@ -13,3 +13,17 @@ variable "env_name" {
   description = "The environment for the GKE cluster"
   default     = "prod"
 }
+
+variable "region" {
+  description = "The region to host the cluster in"
+  default     = "europe-west2"
+}
+
+variable "location" {
+  description = "The location to host the cluster in"
+  default     = "europe-west2-a"
+}
+
+variable "gcp-creds" {
+  default= ""
+}
