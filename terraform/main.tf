@@ -7,6 +7,12 @@ terraform {
       source  = "hashicorp/google"
       version = "~> 4.0"
     }
+    
+    google-beta = {
+      source  = "hashicorp/google-beta"
+      version = "~> 4.0"
+    }
+
   }
   
   backend "gcs" {
@@ -22,6 +28,12 @@ provider "google" {
   credentials = var.gcp-creds
 }
 
+provider "google-beta" {
+  project     = var.project_id
+  region      = var.region
+  zone        = var.location
+  credentials = var.gcp-creds
+}
 
 module "prod_cluster" {
   source          = "./main"
