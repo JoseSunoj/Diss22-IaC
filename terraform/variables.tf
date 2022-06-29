@@ -16,12 +16,12 @@ variable "env_name" {
 
 variable "region" {
   description = "The region to host the cluster in"
-  default     = "europe-west2"
+  default     = "europe-west1"
 }
 
 variable "location" {
   description = "The location to host the cluster in"
-  default     = "europe-west2-a"
+  default     = "europe-west1-b"
 }
 
 variable "gcp-creds" {
