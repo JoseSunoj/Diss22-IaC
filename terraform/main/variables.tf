@@ -15,7 +15,7 @@ variable "pool_name" {
 
 variable "env_name" {
   description = "The environment for the GKE cluster"
-  default     = "prod"
+  default     = "diss22-prod"
 }
 
 variable "region" {

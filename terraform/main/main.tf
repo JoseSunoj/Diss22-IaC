@@ -179,7 +179,7 @@ resource "kubectl_manifest" "addons" {
 }
 
 data "kubectl_file_documents" "addon_grafana" {
-  content = file("../manifests/istio/samples/grafana.yaml")
+  content = file("../manifests/istio/samples/grafana/grafana.yaml")
 }
 
 resource "kubectl_manifest" "grafana" {
@@ -188,6 +188,19 @@ resource "kubectl_manifest" "grafana" {
   ]
   count              = length(data.kubectl_file_documents.addon_grafana.documents)
   yaml_body          = element(data.kubectl_file_documents.addon_grafana.documents, count.index)
+  override_namespace = "istio-system"
+}
+
+data "kubectl_file_documents" "addon_zipkin" {
+  content = file("../manifests/istio/samples/addons/extras/zipkin.yaml")
+}
+
+resource "kubectl_manifest" "zipkin" {
+  depends_on = [
+    helm_release.istiod, helm_release.istio_ingress
+  ]
+  count              = length(data.kubectl_file_documents.addon_zipkin.documents)
+  yaml_body          = element(data.kubectl_file_documents.addon_zipkin.documents, count.index)
   override_namespace = "istio-system"
 }
 
