@@ -179,7 +179,7 @@ resource "kubectl_manifest" "addons" {
 }
 
 data "kubectl_file_documents" "addon_grafana" {
-  content = file("../manifests/istio/samples/grafana/grafana.yaml")
+  content = file("../manifests/istio/samples/addons/grafana/grafana.yaml")
 }
 
 resource "kubectl_manifest" "grafana" {
