@@ -90,6 +90,9 @@ images:
   newName: l00162972/diss22-invoice
 - name: l00162972/notification
   newName: l00162972/diss22-notification
+- name: l00162972/prodcut
+  newName: l00162972/diss22-product
+  newTag: ef755551
 - name: l00162972/product
   newName: l00162972/diss22-product
 - name: l00162972/store
