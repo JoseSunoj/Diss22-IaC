@@ -92,7 +92,7 @@ images:
   newName: l00162972/diss22-notification
 - name: l00162972/product
   newName: l00162972/diss22-product
-  newTag: ef755551
+  newTag: 06efbcb2
 - name: l00162972/store
   newName: l00162972/diss22-store
   newTag: 55393f58
