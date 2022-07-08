@@ -95,6 +95,5 @@ images:
   newTag: ef755551
 - name: l00162972/store
   newName: l00162972/diss22-store
-  newTag: 0dc7c122
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
