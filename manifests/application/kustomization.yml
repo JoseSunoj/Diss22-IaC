@@ -88,6 +88,7 @@ patchesJson6902:
 images:
 - name: l00162972/invoice
   newName: l00162972/diss22-invoice
+  newTag: fd385abd
 - name: l00162972/notification
   newName: l00162972/diss22-notification
 - name: l00162972/product
