@@ -91,6 +91,7 @@ images:
   newTag: fd385abd
 - name: l00162972/notification
   newName: l00162972/diss22-notification
+  newTag: eda36dee
 - name: l00162972/product
   newName: l00162972/diss22-product
   newTag: 06efbcb2
