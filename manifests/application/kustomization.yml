@@ -91,8 +91,8 @@ images:
 - name: l00162972/notification
   newName: l00162972/diss22-notification
 - name: l00162972/product
-  newName: l00162972/diss22-product
-  newTag: 06efbcb2
+  newName: l00162972/diss22-invoice
+  newTag: 22fdcddd
 - name: l00162972/store
   newName: l00162972/diss22-store
   newTag: 55393f58
