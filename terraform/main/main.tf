@@ -242,3 +242,18 @@ resource "kubectl_manifest" "argocd_pacthes" {
   override_namespace = "argocd"
 }
 
+# deploying app
+
+data "kubectl_file_documents" "app" {
+  content = file("../manifests/argocd/app/application.yaml")
+}
+
+resource "kubectl_manifest" "app" {
+  depends_on = [
+    kubectl_manifest.argocd
+  ]
+  count              = length(data.kubectl_file_documents.app.documents)
+  yaml_body          = element(data.kubectl_file_documents.app.documents, count.index)
+  override_namespace = "argocd"
+}
+
