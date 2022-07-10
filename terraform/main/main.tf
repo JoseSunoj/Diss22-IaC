@@ -222,7 +222,7 @@ data "kubectl_file_documents" "argocd_install" {
 
 resource "kubectl_manifest" "argocd" {
   depends_on = [
-    helm_release.istio_ingress, kubectl_manifest.addons, kubectl_manifest.grafana
+    helm_release.istio_ingress, kubectl_manifest.addons, kubectl_manifest.grafana, kubectl_manifest.zipkin
   ]
   count              = length(data.kubectl_file_documents.argocd_install.documents)
   yaml_body          = element(data.kubectl_file_documents.argocd_install.documents, count.index)

@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: store
+  name: notification
   namespace: jhipster
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: store
+      app: notification
       version: "v1"
   template:
     metadata:
       labels:
-        app: store
+        app: notification
         version: "v1"
     spec:
       affinity:
@@ -24,7 +24,7 @@ spec:
                     - key: app
                       operator: In
                       values:
-                        - store
+                        - notification
                 topologyKey: kubernetes.io/hostname
               weight: 100
       initContainers:
@@ -36,7 +36,7 @@ spec:
             - |
               while true
               do
-                rt=$(nc -z -w 1 store-postgresql 5432)
+                rt=$(nc -z -w 1 notification-mongodb 27017)
                 if [ $? -eq 0 ]; then
                   echo "DB is UP"
                   break
@@ -45,8 +45,8 @@ spec:
                 sleep 10
               done
       containers:
-        - name: store-app
-          image: l00162972/store
+        - name: notification-app
+          image: l00162972/diss22-notification
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: prod
@@ -55,19 +55,10 @@ spec:
                 secretKeyRef:
                   name: jwt-secret
                   key: secret
-            - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://store-postgresql.jhipster.svc.cluster.local:5432/store
-            - name: SPRING_DATASOURCE_USERNAME
-              value: store
-            - name: SPRING_R2DBC_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: store-postgresql
-                  key: postgresql-password
-            - name: SPRING_LIQUIBASE_URL
-              value: jdbc:postgresql://store-postgresql.jhipster.svc.cluster.local:5432/store
-            - name: SPRING_R2DBC_URL
-              value: r2dbc:postgresql://store-postgresql.jhipster.svc.cluster.local:5432/store
+            - name: SPRING_DATA_MONGODB_DATABASE
+              value: notification
+            - name: SPRING_DATA_MONGODB_URI
+              value: "mongodb://notification-mongodb-0.notification-mongodb.jhipster:27017"
             - name: SPRING_SLEUTH_PROPAGATION_KEYS
               value: "x-request-id,x-ot-span-context"
             - name: JAVA_OPTS
@@ -83,7 +74,7 @@ spec:
               cpu: "1"
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 8083
           readinessProbe:
             httpGet:
               path: /management/health/readiness

@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: product
+  name: store
   namespace: jhipster
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: product
+      app: store
       version: "v1"
   template:
     metadata:
       labels:
-        app: product
+        app: store
         version: "v1"
     spec:
       affinity:
@@ -24,7 +24,7 @@ spec:
                     - key: app
                       operator: In
                       values:
-                        - product
+                        - store
                 topologyKey: kubernetes.io/hostname
               weight: 100
       initContainers:
@@ -36,7 +36,7 @@ spec:
             - |
               while true
               do
-                rt=$(nc -z -w 1 product-postgresql 5432)
+                rt=$(nc -z -w 1 store-postgresql 5432)
                 if [ $? -eq 0 ]; then
                   echo "DB is UP"
                   break
@@ -45,8 +45,8 @@ spec:
                 sleep 10
               done
       containers:
-        - name: product-app
-          image: l00162972/product
+        - name: store-app
+          image: l00162972/diss22-store
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: prod
@@ -56,16 +56,18 @@ spec:
                   name: jwt-secret
                   key: secret
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://product-postgresql.jhipster.svc.cluster.local:5432/product
+              value: jdbc:postgresql://store-postgresql.jhipster.svc.cluster.local:5432/store
             - name: SPRING_DATASOURCE_USERNAME
-              value: product
-            - name: SPRING_DATASOURCE_PASSWORD
+              value: store
+            - name: SPRING_R2DBC_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: product-postgresql
+                  name: store-postgresql
                   key: postgresql-password
             - name: SPRING_LIQUIBASE_URL
-              value: jdbc:postgresql://product-postgresql.jhipster.svc.cluster.local:5432/product
+              value: jdbc:postgresql://store-postgresql.jhipster.svc.cluster.local:5432/store
+            - name: SPRING_R2DBC_URL
+              value: r2dbc:postgresql://store-postgresql.jhipster.svc.cluster.local:5432/store
             - name: SPRING_SLEUTH_PROPAGATION_KEYS
               value: "x-request-id,x-ot-span-context"
             - name: JAVA_OPTS
@@ -81,7 +83,7 @@ spec:
               cpu: "1"
           ports:
             - name: http
-              containerPort: 8081
+              containerPort: 8080
           readinessProbe:
             httpGet:
               path: /management/health/readiness

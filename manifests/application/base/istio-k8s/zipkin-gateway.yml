@@ -4,7 +4,7 @@
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
-  name: kiali-observability-gateway
+  name: zipkin-observability-gateway
   namespace: istio-system
 spec:
   selector:
@@ -15,27 +15,28 @@ spec:
         name: http
         protocol: HTTP
       hosts:
-        - kiali.istio-system.34.142.93.235.nip.io
+        - zipkin.istio-system.34.79.134.72.nip.io
     - port:
         number: 80
         name: http2
         protocol: HTTP2
       hosts:
-        - kiali.istio-system.34.142.93.235.nip.io
+        - zipkin.istio-system.34.79.134.72.nip.io
 ---
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: kiali-gw-virtualservice
+  name: zipkin-gw-virtualservice
   namespace: istio-system
 spec:
   hosts:
-    - kiali.istio-system.34.142.93.235.nip.io
+    - zipkin.istio-system.34.79.134.72.nip.io
   gateways:
-    - kiali-observability-gateway
+    - zipkin-observability-gateway
   http:
-    - route:
+    - match:
+        - uri:
+            prefix: /
+      route:
         - destination:
-            host: kiali
-            port:
-              number: 20001
+            host: zipkin
