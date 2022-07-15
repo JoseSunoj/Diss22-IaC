@@ -51,13 +51,13 @@ variable "ip_svc_range_name" {
 variable "machine_type" {
   type        = string
   description = "Type of the node compute engines."
-  default     = "n1-standard-4"
+  default     = "n1-standard-2"
 }
 
 variable "min_count" {
   type        = number
   description = "Minimum number of nodes in the NodePool"
-  default     = 1
+  default     = 4
 }
 
 variable "max_count" {

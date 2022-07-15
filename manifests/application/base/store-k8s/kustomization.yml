@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- store-deployment.yml
+- store-service.yml
+- store-postgresql.yml
+- store-gateway.yml
+- store-destination-rule.yml
+- store-virtual-service.yml
+  
+images:
+- name: l00162972/diss22-store
+  newName: l00162972/diss22-store
+  newTag: b4249db8

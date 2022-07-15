@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- invoice-deployment.yml
+- invoice-service.yml
+- invoice-postgresql.yml
+- invoice-destination-rule.yml
+- invoice-virtual-service.yml
+  
+images:
+- name: l00162972/diss22-invoice
+  newName: l00162972/diss22-invoice
+  newTag: 4333a48e

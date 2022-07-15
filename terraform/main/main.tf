@@ -222,7 +222,7 @@ data "kubectl_file_documents" "argocd_install" {
 
 resource "kubectl_manifest" "argocd" {
   depends_on = [
-    helm_release.istio_ingress, kubectl_manifest.addons, kubectl_manifest.grafana
+    helm_release.istio_ingress, kubectl_manifest.addons, kubectl_manifest.grafana, kubectl_manifest.zipkin
   ]
   count              = length(data.kubectl_file_documents.argocd_install.documents)
   yaml_body          = element(data.kubectl_file_documents.argocd_install.documents, count.index)
@@ -239,6 +239,21 @@ resource "kubectl_manifest" "argocd_pacthes" {
   ]
   for_each           = toset(data.kubectl_path_documents.argocd_pacthes.documents)
   yaml_body          = each.value
+  override_namespace = "argocd"
+}
+
+# deploying app
+
+data "kubectl_file_documents" "app" {
+  content = file("../manifests/argocd/app/application.yaml")
+}
+
+resource "kubectl_manifest" "app" {
+  depends_on = [
+    kubectl_manifest.argocd
+  ]
+  count              = length(data.kubectl_file_documents.app.documents)
+  yaml_body          = element(data.kubectl_file_documents.app.documents, count.index)
   override_namespace = "argocd"
 }
 
