@@ -1,0 +1,42 @@
+name: Snyk Infrastructure as Code
+on: push
+
+permissions:
+  contents: read
+
+jobs:
+  snyk:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        files:
+          - terraform/*.tf
+          - terraform/main/*.tf
+          - manifests/application/base/invoice-k8s/*.yml
+          - manifests/application/base/istio-k8s/*.yml
+          - manifests/application/base/notification-k8s/*.yml
+          - manifests/application/base/product-k8s/*.yml
+          - manifests/application/base/store-k8s/*.yml
+          - manifests/application/overlays/jhipster/*.yml
+          - manifests/argocd/app/*.yaml
+          - manifests/argocd/argocd-install/*.yaml
+          - manifests/argocd/argocd-install/argocd-istio/*.yaml
+          - manifests/istio/samples/addons/*.yaml
+          - manifests/istio/samples/addons/grafana/grafana.yaml
+          - manifests/istio/samples/addons/extras/zipkin.yaml
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run Snyk to check configuration files for security issues
+        continue-on-error: true
+        uses: snyk/actions/iac@14818c4695ecc4045f33c9cee9e795a788711ca4
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          file: ${{ matrix.files }}
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: snyk.sarif
