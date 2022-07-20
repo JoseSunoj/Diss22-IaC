@@ -1,20 +1,20 @@
 terraform {
   required_version = ">= 0.14"
-  
+
   required_providers {
 
     google = {
       source  = "hashicorp/google"
       version = "~> 4.0"
     }
-    
+
     google-beta = {
       source  = "hashicorp/google-beta"
       version = "~> 4.0"
     }
 
   }
-  
+
   backend "gcs" {
     bucket = "terraform-backend-diss-22"
     prefix = "diss22-terraform"
