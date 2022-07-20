@@ -11,4 +11,4 @@ resources:
 images:
 - name: l00162972/diss22-notification
   newName: l00162972/diss22-notification
-  newTag: a86e12de
+  newTag: c6df2ddf
