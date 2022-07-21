@@ -15,11 +15,16 @@ terraform {
 
   }
 
-  backend "remote" {
-    organization = "Dissertation22"
-    workspaces {
-      name = "Diss22-IaC"
-    }
+  #backend "remote" {
+    #organization = "Dissertation22"
+    #workspaces {
+     # name = "Diss22-IaC"
+    #}
+  #}
+
+  backend "gcs" {
+    bucket = "terraform-backend-diss-22"
+    prefix = "diss22-terraform"
   }
 }
 
