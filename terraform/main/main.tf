@@ -242,7 +242,9 @@ resource "kubectl_manifest" "argocd_patches" {
   override_namespace = "argocd"
 }
 
-# deploying app (this is optional as it can be done by Argo CD UI or one time manually using kubectl from CLI)
+# deploying app 
+# (this can be done by Argo CD UI or using kubectl from CLI after a succesful terraform apply of the above resources)
+# 
 
 data "kubectl_file_documents" "app" {
   content = file("../manifests/argocd/app/application.yaml")
