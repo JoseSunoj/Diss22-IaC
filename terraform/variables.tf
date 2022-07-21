@@ -25,5 +25,5 @@ variable "location" {
 }
 
 variable "gcp-creds" {
-  default= ""
+  default = ""
 }
