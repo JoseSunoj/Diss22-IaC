@@ -2,7 +2,7 @@
 
 ## Terraform 
 
-The terraform script can do provisioning of a private GKEcluster with Istio service mesh, Argo CD, and the Microservices Application.
+The terraform script can do provisioning of a private GKE cluster with Istio service mesh, Argo CD, and the Microservices Application.
 
 ## Terraform Cloud
 
