@@ -171,7 +171,7 @@ data "kubectl_path_documents" "addons" {
 
 resource "kubectl_manifest" "addons" {
   depends_on = [
-    helm_release.istiod, helm_release.istio_ingress
+    helm_release.istiod, helm_release.istio_ingress, helm_release.istio_egress
   ]
   for_each           = toset(data.kubectl_path_documents.addons.documents)
   yaml_body          = each.value
@@ -184,7 +184,7 @@ data "kubectl_file_documents" "addon_grafana" {
 
 resource "kubectl_manifest" "grafana" {
   depends_on = [
-    helm_release.istiod, helm_release.istio_ingress
+    helm_release.istiod, helm_release.istio_ingress, helm_release.istio_egress
   ]
   count              = length(data.kubectl_file_documents.addon_grafana.documents)
   yaml_body          = element(data.kubectl_file_documents.addon_grafana.documents, count.index)
@@ -197,7 +197,7 @@ data "kubectl_file_documents" "addon_zipkin" {
 
 resource "kubectl_manifest" "zipkin" {
   depends_on = [
-    helm_release.istiod, helm_release.istio_ingress
+    helm_release.istiod, helm_release.istio_ingress, helm_release.istio_egress
   ]
   count              = length(data.kubectl_file_documents.addon_zipkin.documents)
   yaml_body          = element(data.kubectl_file_documents.addon_zipkin.documents, count.index)
@@ -222,7 +222,7 @@ data "kubectl_file_documents" "argocd_install" {
 
 resource "kubectl_manifest" "argocd" {
   depends_on = [
-    helm_release.istio_ingress, kubectl_manifest.addons, kubectl_manifest.grafana, kubectl_manifest.zipkin, kubernetes_namespace.argocd
+    kubectl_manifest.addons, kubectl_manifest.grafana, kubectl_manifest.zipkin, kubernetes_namespace.argocd
   ]
   count              = length(data.kubectl_file_documents.argocd_install.documents)
   yaml_body          = element(data.kubectl_file_documents.argocd_install.documents, count.index)
@@ -235,7 +235,7 @@ data "kubectl_path_documents" "argocd_patches" {
 
 resource "kubectl_manifest" "argocd_patches" {
   depends_on = [
-    helm_release.istio_ingress, kubernetes_namespace.argocd, kubectl_manifest.argocd
+    kubectl_manifest.argocd
   ]
   for_each           = toset(data.kubectl_path_documents.argocd_patches.documents)
   yaml_body          = each.value
@@ -250,7 +250,7 @@ data "kubectl_file_documents" "app" {
 
 resource "kubectl_manifest" "app" {
   depends_on = [
-    helm_release.istio_ingress, kubernetes_namespace.argocd, kubectl_manifest.argocd, kubectl_manifest.argocd_patches
+    kubectl_manifest.argocd_patches
   ]
   count              = length(data.kubectl_file_documents.app.documents)
   yaml_body          = element(data.kubectl_file_documents.app.documents, count.index)

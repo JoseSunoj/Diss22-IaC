@@ -80,7 +80,7 @@ variable "service_account" {
 variable "initial_node_count" {
   type        = number
   description = "The number of nodes to create in this cluster's default node pool."
-  default     = 6
+  default     = 4
 }
 
 variable "loadBalancer_IP" {
