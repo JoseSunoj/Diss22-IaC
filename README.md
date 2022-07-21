@@ -13,7 +13,7 @@ Auto apply is currently disabled, but can be enabled easily.
 
 Once the cluster is up and running Argo CD functioning inside the cluster continuously monitor the Main branch of this repo for chnages in the Microservices configuration. 
 If the actual state does not match the desired state, it updates the actual state of the infrastructure to match the desired state. 
-Now the main branch of this repository is the single source of truth for the Cloud-native application. It is not possible to change its configuration from outside of this repo.
+Now the main branch of this repository is the single source of truth for the Cloud-native application.
 
 ## The Cloud-native e-commerce application 
 
