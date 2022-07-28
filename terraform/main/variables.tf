@@ -8,11 +8,6 @@ variable "cluster_name" {
   default     = "diss22-cluster"
 }
 
-variable "pool_name" {
-  description = "The name for the node pool"
-  default     = "diss22-node-pool"
-}
-
 variable "env_name" {
   description = "The environment for the GKE cluster"
   default     = "diss22-prod"

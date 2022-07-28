@@ -24,20 +24,22 @@ provider "kubectl" {
 #  private GKE
 
 module "gke" {
-  source                     = "terraform-google-modules/kubernetes-engine/google//modules/private-cluster"
-  project_id                 = var.project_id
-  name                       = "${var.cluster_name}-${var.env_name}"
-  regional                   = true
-  region                     = var.region
-  network                    = module.gcp-network.network_name
-  subnetwork                 = module.gcp-network.subnets_names[0]
-  ip_range_pods              = var.ip_pods_range_name
-  ip_range_services          = var.ip_svc_range_name
-  horizontal_pod_autoscaling = true
+  source                      = "terraform-google-modules/kubernetes-engine/google//modules/private-cluster"
+  project_id                  = var.project_id
+  name                        = "${var.cluster_name}-${var.env_name}"
+  regional                    = true
+  region                      = var.region
+  network                     = module.gcp-network.network_name
+  subnetwork                  = module.gcp-network.subnets_names[0]
+  ip_range_pods               = var.ip_pods_range_name
+  ip_range_services           = var.ip_svc_range_name
+  horizontal_pod_autoscaling  = true
+  remove_default_node_pool    = true
+  enable_binary_authorization = true
 
   node_pools = [
     {
-      name               = var.pool_name
+      name               = "diss22-node-pool"
       machine_type       = var.machine_type
       node_locations     = var.location
       min_count          = var.min_count
@@ -49,6 +51,52 @@ module "gke" {
       initial_node_count = var.initial_node_count
     },
   ]
+
+  node_pools_oauth_scopes = {
+    all = [
+      "https://www.googleapis.com/auth/cloud-platform",
+    ]
+
+    diss22-node-pool = [
+      "https://www.googleapis.com/auth/cloud-platform",
+    ]
+  }
+
+  node_pools_labels = {
+    all = {}
+
+    diss22-node-pool = {
+
+    }
+  }
+
+  node_pools_metadata = {
+    all = {}
+
+    diss22-node-pool = {
+
+    }
+  }
+
+  node_pools_taints = {
+    all = []
+
+    diss22-node-pool = [
+      {
+        key    = "diss22-node-pool"
+        value  = true
+        effect = "PREFER_NO_SCHEDULE"
+      },
+    ]
+  }
+
+  node_pools_tags = {
+    all = []
+
+    diss22-node-pool = [
+      "diss22-node-pool",
+    ]
+  }
 
 }
 
