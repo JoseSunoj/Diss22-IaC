@@ -11,4 +11,4 @@ Just run the following terraform commands:
     terraform plan
     terraform apply
     
-More details can be found when openning the main folder.
+More details are there in the 'main' folder.
