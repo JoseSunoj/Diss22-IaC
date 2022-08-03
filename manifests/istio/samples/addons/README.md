@@ -1,3 +1,8 @@
+# About the Manifests in this Path
+
+All these manifests were provided by Istio when downloaded the package.
+
+
 # Telemetry Addons
 
 This directory contains sample deployments of various addons that integrate with Istio. While these applications

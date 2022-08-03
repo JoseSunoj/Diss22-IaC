@@ -1,20 +1,23 @@
 # Terraform Scripts 
 
 Scripts to provision regional private GKE clusters with Istio service mesh and Argocd.
+There is also scripts to deploy Jhipster microservices app to the cluster. 
 
 ## Prerequisites
 
-    1. A google cloud service account with necessary project roles and activated APIs as explained in  https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/tree/master/modules/private-cluster
+    1. A google cloud service account with necessary project roles and activated APIs as explained [here](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/tree/master/modules/private-cluster)
     
-    2. Google cloud CL to interact with GCP (optional)
+    2. Google cloud CLI to interact with GCP optional
 
     3. Latest version of Terraform 
 
-    3. Latest  version of kubectl (optional)
+    3. Latest  version of kubectl 
 
     4. istioctl (optional)
 
     5. helm (optional)
+    
+    6. Argo CD CLI (optional)
 
 ## Terrafrom commands
 

@@ -16,7 +16,7 @@ terraform {
   }
 
   backend "gcs" {
-    bucket = "terraform-backend-diss-22"
+    bucket = "terraform-backend-diss-22-220722"
     prefix = "diss22-terraform"
   }
 }
