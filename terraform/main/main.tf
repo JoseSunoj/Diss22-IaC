@@ -24,18 +24,19 @@ provider "kubectl" {
 #  private GKE
 
 module "gke" {
-  source                      = "terraform-google-modules/kubernetes-engine/google//modules/private-cluster"
-  project_id                  = var.project_id
-  name                        = "${var.cluster_name}-${var.env_name}"
-  regional                    = true
-  region                      = var.region
-  network                     = module.gcp-network.network_name
-  subnetwork                  = module.gcp-network.subnets_names[0]
-  ip_range_pods               = var.ip_pods_range_name
-  ip_range_services           = var.ip_svc_range_name
-  horizontal_pod_autoscaling  = true
-  remove_default_node_pool    = true
-  enable_binary_authorization = true
+  source                          = "terraform-google-modules/kubernetes-engine/google//modules/private-cluster"
+  project_id                      = var.project_id
+  name                            = "${var.cluster_name}-${var.env_name}"
+  regional                        = true
+  region                          = var.region
+  network                         = module.gcp-network.network_name
+  subnetwork                      = module.gcp-network.subnets_names[0]
+  ip_range_pods                   = var.ip_pods_range_name
+  ip_range_services               = var.ip_svc_range_name
+  horizontal_pod_autoscaling      = true
+  remove_default_node_pool        = true
+  enable_binary_authorization     = true
+  enable_vertical_pod_autoscaling = true
 
   node_pools = [
     {
