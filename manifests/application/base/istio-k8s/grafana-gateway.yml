@@ -15,13 +15,13 @@ spec:
         name: http
         protocol: HTTP
       hosts:
-        - grafana.34.78.248.220.nip.io
+        - grafana.34.79.49.77.nip.io
     - port:
         number: 80
         name: http2
         protocol: HTTP2
       hosts:
-        - grafana.34.78.248.220.nip.io
+        - grafana.34.79.49.77.nip.io
 ---
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -30,7 +30,7 @@ metadata:
   namespace: istio-system
 spec:
   hosts:
-    - grafana.34.78.248.220.nip.io
+    - grafana.34.79.49.77.nip.io
   gateways:
     - grafana-observability-gateway
   http:
