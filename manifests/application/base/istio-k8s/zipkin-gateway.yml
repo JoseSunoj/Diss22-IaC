@@ -39,4 +39,4 @@ spec:
             prefix: /
       route:
         - destination:
-            host: zipkin.34.78.248.220.nip.io
+            host: zipkin
