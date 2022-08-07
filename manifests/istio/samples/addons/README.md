@@ -2,6 +2,8 @@
 
 All these manifests were provided by Istio when downloaded the package.
 
+This project does not use Jaegar and its configuration file was not included here. Howwver, the original downloads had it. 
+This document also contains information regarding Jaegar and its integration with Istio, though it is not used.
 
 # Telemetry Addons
 
