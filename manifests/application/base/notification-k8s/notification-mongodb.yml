@@ -162,7 +162,7 @@ spec:
             - name: configdir
               mountPath: /data/configdb
         - name: install
-          image: "k8s.gcr.io/mongodb-install:0.7.5"
+          image: "k8s.gcr.io/mongodb-install:0.8"
           args:
             - --work-dir=/work-dir
           imagePullPolicy: "IfNotPresent"
