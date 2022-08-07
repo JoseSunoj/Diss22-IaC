@@ -20,14 +20,12 @@ metadata:
 data:
   on-start.sh: |
     script_name=${0##*/}
-
     log() {
         local msg="$1"
         local timestamp
         timestamp=$(date --iso-8601=ns)
         echo "[$timestamp] [$script_name] $msg" >> /work-dir/log.txt
     }
-
     shutdown_mongo() {
         if [[ $# -eq 1 ]]; then
             args="timeoutSecs: $1"
@@ -37,10 +35,8 @@ data:
         log "Shutting down MongoDB ($args)..."
         mongo admin "${admin_creds[@]}" "${ssl_args[@]}" --eval "db.shutdownServer({$args})"
     }
-
     my_hostname=$(hostname)
     log "Bootstrapping MongoDB replica set member: $my_hostname"
-
     log "Reading standard input..."
     while read -ra line; do
         if [[ "${line}" == *"${my_hostname}"* ]]; then
@@ -49,7 +45,6 @@ data:
         fi
         peers=("${peers[@]}" "$line")
     done
-
     # Generate the ca cert
     ca_crt=/data/configdb/tls.crt
     if [ -f "$ca_crt"  ]; then
@@ -57,10 +52,8 @@ data:
         ca_key=/data/configdb/tls.key
         pem=/work-dir/mongo.pem
         ssl_args=(--ssl --sslCAFile "$ca_crt" --sslPEMKeyFile "$pem")
-
     # Move into /work-dir
     pushd /work-dir
-
     cat >openssl.cnf <<EOL
     [req]
     req_extensions = v3_req
@@ -77,33 +70,25 @@ data:
     DNS.4 = localhost
     DNS.5 = 127.0.0.1
     EOL
-
         # Generate the certs
         openssl genrsa -out mongo.key 2048
         openssl req -new -key mongo.key -out mongo.csr -subj "/CN=$my_hostname" -config openssl.cnf
         openssl x509 -req -in mongo.csr \
             -CA "$ca_crt" -CAkey "$ca_key" -CAcreateserial \
             -out mongo.crt -days 3650 -extensions v3_req -extfile openssl.cnf
-
         rm mongo.csr
         cat mongo.crt mongo.key > $pem
         rm mongo.key mongo.crt
     fi
-
-
     log "Peers: ${peers[*]}"
-
     log "Starting a MongoDB instance..."
     mongod --config /data/configdb/mongod.conf --dbpath="$DATA_PATH" --replSet="$REPLICA_SET" --port=$PORT "${auth_args[@]}" --bind_ip=0.0.0.0 >> /work-dir/log.txt 2>&1 &
-
     log "Waiting for MongoDB to be ready..."
     until mongo "${ssl_args[@]}" --eval "db.adminCommand('ping')"; do
         log "Retrying..."
         sleep 2
     done
-
     log "Initialized."
-
     # try to find a master and add yourself to its replica set.
     for peer in "${peers[@]}"; do
         if mongo admin --host "$peer" "${admin_creds[@]}" "${ssl_args[@]}" --eval "rs.isMaster()" | grep '"ismaster" : true'; then
@@ -114,39 +99,29 @@ data:
                 shutdown_mongo
                 exit 1
             fi
-
             sleep 3
-
             log 'Waiting for replica to reach SECONDARY state...'
             until printf '.' && [[ $(mongo admin "${admin_creds[@]}" "${ssl_args[@]}" --quiet --eval "rs.status().myState") == '2' ]]; do
                 sleep 1
             done
-
             log '✓ Replica reached SECONDARY state.'
-
             shutdown_mongo "60"
             log "Good bye."
             exit 0
         fi
     done
-
     # else initiate a replica set with yourself.
     if mongo "${ssl_args[@]}" --eval "rs.status()" | grep "no replset config has been received"; then
         log "Initiating a new replica set with myself ($service_name)..."
         mongo "${ssl_args[@]}" --eval "rs.initiate({'_id': '$REPLICA_SET', 'members': [{'_id': 0, 'host': '$service_name'}]})"
-
         sleep 3
-
         log 'Waiting for replica to reach PRIMARY state...'
         until printf '.' && [[ $(mongo "${ssl_args[@]}" --quiet --eval "rs.status().myState") == '1' ]]; do
             sleep 1
         done
-
         log '✓ Replica reached PRIMARY state.'
-
         log "Done."
     fi
-
     shutdown_mongo
     log "Good bye."
 ---
@@ -187,7 +162,7 @@ spec:
             - name: configdir
               mountPath: /data/configdb
         - name: install
-          image: "k8s.gcr.io/mongodb-install:0.6"
+          image: "k8s.gcr.io/mongodb-install:0.7.5"
           args:
             - --work-dir=/work-dir
           imagePullPolicy: "IfNotPresent"
@@ -195,7 +170,7 @@ spec:
             - name: workdir
               mountPath: /work-dir
         - name: boot
-          image: mongo:5.0.9
+          image: mongo@sha256:5255f45e7f87b4404388205351ef69e5f6c018976b355729afa01014faf7792a
           command:
             - /work-dir/peer-finder
           args:
@@ -225,7 +200,7 @@ spec:
               mountPath: /data/db
       containers:
         - name: mongodb
-          image: mongo:5.0.9
+          image: mongo@sha256:5255f45e7f87b4404388205351ef69e5f6c018976b355729afa01014faf7792a
           imagePullPolicy: "IfNotPresent"
           env:
             - name: POD_NAMESPACE
