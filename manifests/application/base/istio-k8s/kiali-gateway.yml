@@ -36,6 +36,6 @@ spec:
   http:
     - route:
         - destination:
-            host: kiali
+            host: kiali.34.78.248.220.nip.io
             port:
               number: 20001
