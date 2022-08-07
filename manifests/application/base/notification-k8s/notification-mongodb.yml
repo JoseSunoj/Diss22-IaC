@@ -285,10 +285,9 @@ metadata:
   name: notification-mongodb
   namespace: jhipster
 spec:
-  type: ClusterIP
-  clusterIP: None
   ports:
-    - name: peer
-      port: 27017
+  - port: 27017
+    targetPort: 27017
+  clusterIP: None
   selector:
     app: notification-mongodb
