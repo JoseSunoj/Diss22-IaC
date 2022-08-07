@@ -31,7 +31,7 @@ spec:
           emptyDir: {}
       containers:
         - name: postgres
-          image: postgres:14.2
+          image: postgres@sha256:d6809f4833ca6caf11a4969a7f41420d3e5fcf26b8c9ca4253c34d5a5fa377cc
           env:
             - name: POSTGRES_USER
               value: product

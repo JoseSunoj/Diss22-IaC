@@ -69,12 +69,12 @@ variable "disk_size_gb" {
 
 variable "service_account" {
   type        = string
-  description = "The service account to run nodes as if not overridden in node_pools."
+  description = "The service account to run nodes if not overridden in node_pools."
 }
 
 variable "initial_node_count" {
   type        = number
-  description = "The number of nodes to create in this cluster's default node pool."
+  description = "The number of initial nodes to be created in the NodePool."
   default     = 4
 }
 
