@@ -187,7 +187,7 @@ spec:
             - name: configdir
               mountPath: /data/configdb
         - name: install
-          image: "k8s.gcr.io/mongodb-install:0.6"
+          image: "k8s.gcr.io/mongodb-install:0.7.5"
           args:
             - --work-dir=/work-dir
           imagePullPolicy: "IfNotPresent"
@@ -195,7 +195,7 @@ spec:
             - name: workdir
               mountPath: /work-dir
         - name: boot
-          image: mongo:5.0.9
+          image: mongo@sha256:5255f45e7f87b4404388205351ef69e5f6c018976b355729afa01014faf7792a
           command:
             - /work-dir/peer-finder
           args:
@@ -225,7 +225,7 @@ spec:
               mountPath: /data/db
       containers:
         - name: mongodb
-          image: mongo:5.0.9
+          image: mongo@sha256:5255f45e7f87b4404388205351ef69e5f6c018976b355729afa01014faf7792a
           imagePullPolicy: "IfNotPresent"
           env:
             - name: POD_NAMESPACE
