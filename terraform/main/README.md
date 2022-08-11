@@ -5,19 +5,20 @@ There is also scripts to deploy Jhipster microservices app to the cluster.
 
 ## Prerequisites
 
-    1. A google cloud service account with necessary project roles and activated APIs as explained [here](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/tree/master/modules/private-cluster)
-    
-    2. Google cloud CLI to interact with GCP optional
+1. A google cloud service account with necessary project roles and activated APIs as explained ["here"](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/tree/master/modules/private-cluster)
 
-    3. Latest version of Terraform 
+2. Google cloud CLI to interact with GCP 
 
-    3. Latest  version of kubectl 
+3. Latest version of Terraform 
 
-    4. istioctl (optional)
+3. Latest  version of kubectl 
 
-    5. helm (optional)
-    
-    6. Argo CD CLI (optional)
+4. istioctl (optional)
+
+5. helm (optional
+
+6. Argo CD CLI (optional)
+
 
 ## Terrafrom commands
 

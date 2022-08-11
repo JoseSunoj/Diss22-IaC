@@ -51,13 +51,13 @@ variable "machine_type" {
 
 variable "min_count" {
   type        = number
-  description = "Minimum number of nodes in the NodePool"
+  description = "Minimum number of nodes required in the NodePool"
   default     = 4
 }
 
 variable "max_count" {
   type        = number
-  description = "Maximum number of nodes in the NodePool"
+  description = "Maximum number of nodes required in the NodePool"
   default     = 8
 }
 
