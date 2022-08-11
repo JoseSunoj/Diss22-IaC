@@ -11,4 +11,4 @@ resources:
 images:
 - name: l00162972/diss22-product
   newName: l00162972/diss22-product
-  newTag: 82b2efe7
+  newTag: 10d00e1d
