@@ -12,4 +12,4 @@ resources:
 images:
 - name: l00162972/diss22-store
   newName: l00162972/diss22-store
-  newTag: a7f91b6c
+  newTag: 793f18a0
