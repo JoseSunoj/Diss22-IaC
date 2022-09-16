@@ -11,4 +11,8 @@ Just run the following terraform commands:
     terraform plan
     terraform apply
     
+## Destroying
+
+    terraform destroy
+
 More details are there in the 'main' folder.

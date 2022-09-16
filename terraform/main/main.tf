@@ -102,6 +102,8 @@ module "gke" {
 }
 
 # istio with addons
+# using separate namespaces for ingress and egress 
+# addons are deployed in the namespace istio_system where istiod resides
 
 locals {
   istio_repo = "https://istio-release.storage.googleapis.com/charts"
@@ -214,6 +216,8 @@ resource "helm_release" "istio_egress" {
   depends_on = [helm_release.istiod]
 }
 
+# prometheus, kiali
+
 data "kubectl_path_documents" "addons" {
   pattern = "../manifests/istio/samples/addons/*.yaml"
 }
@@ -227,6 +231,8 @@ resource "kubectl_manifest" "addons" {
   override_namespace = "istio-system"
 }
 
+# grafana
+
 data "kubectl_file_documents" "addon_grafana" {
   content = file("../manifests/istio/samples/addons/grafana/grafana.yaml")
 }
@@ -239,6 +245,8 @@ resource "kubectl_manifest" "grafana" {
   yaml_body          = element(data.kubectl_file_documents.addon_grafana.documents, count.index)
   override_namespace = "istio-system"
 }
+
+# zipkin
 
 data "kubectl_file_documents" "addon_zipkin" {
   content = file("../manifests/istio/samples/addons/extras/zipkin.yaml")

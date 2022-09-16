@@ -15,7 +15,7 @@ There is also scripts to deploy Jhipster microservices app to the cluster.
 
 4. istioctl (optional)
 
-5. helm (optional
+5. helm (optional)
 
 6. Argo CD CLI (optional)
 
