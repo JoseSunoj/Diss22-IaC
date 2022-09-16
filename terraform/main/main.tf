@@ -1,3 +1,5 @@
+# scripts to provision a private GKE with Istio, Istio addons, Argo CD, and an application
+
 data "google_client_config" "default" {}
 
 provider "kubernetes" {
