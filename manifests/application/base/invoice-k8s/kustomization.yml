@@ -11,4 +11,4 @@ resources:
 images:
 - name: l00162972/diss22-invoice
   newName: l00162972/diss22-invoice
-  newTag: a32da2a9
+  newTag: 00dec32c

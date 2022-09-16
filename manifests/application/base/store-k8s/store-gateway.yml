@@ -18,13 +18,13 @@ spec:
         name: http
         protocol: HTTP
       hosts:
-        - store.34.79.49.77.nip.io
+        - store.35.205.36.7.nip.io
     - port:
         number: 80
         name: http2
         protocol: HTTP2
       hosts:
-        - store.34.79.49.77.nip.io
+        - store.35.205.36.7.nip.io
 ---
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -35,7 +35,7 @@ metadata:
     service: store-gw-virtualservice
 spec:
   hosts:
-    - store.34.79.49.77.nip.io
+    - store.35.205.36.7.nip.io
   gateways:
     - store-gateway
   http:
