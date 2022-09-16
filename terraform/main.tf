@@ -35,6 +35,8 @@ provider "google-beta" {
   credentials = var.gcp-creds
 }
 
+# provision production cluster
+
 module "prod_cluster" {
   source          = "./main"
   project_id      = var.project_id
